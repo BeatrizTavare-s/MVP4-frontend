@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal com CSS e JavaScript</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <h2>Study Content</h2>
+    </header>
+    <!-- Botão para abrir o modal -->
+    <button type="button" id="createStudyBtn">Adicionar Estudo</button> 
+    <button type="button" id="btnSearchNotStarted">Vizualizar Cards</button> 
+    <button type="button" id="btnSearchCompleted">Cards Concluído</button> 
+
+
+    <!-- START TOAST -->
+    <div id="toast" class="toast"></div>
+    <!-- END TOAST -->
+
+    <!-- START MODAL DE CONFIRMACAO -->
+    <div id="confirmationModal" class="modal confirmation-modal">
+        <div class="modal-content">
+            <p id="modalMessage">Modal message</p>
+            <button id="confirmActionBtn">Confirmar</button>
+            <button class="close-modal">Cancelar</button>
+        </div>
+    </div>
+    <!-- END MODAL DE CONFIRMACAO -->
+
+    <!-- START MODAL -->
+    <div id="studyModal" class="studyModal">
+        <div class="modal-content-create-study">
+            <h2>Adicionar Study</h2>
+            <form id="studyForm">
+                <label for="studyTitle">Título:</label>
+                <input type="text" id="studyTitle" name="studyTitle" required><br><br>
+
+                <label for="studyDescription">Descrição:</label>
+                <textarea id="studyDescription" name="studyDescription" rows="4" required></textarea><br><br>
+
+                <label for="studyPriority">Prioridade:</label>
+                <select id="studyPriority" name="studyPriority" required>
+                    <option value="high">Alta</option>
+                    <option value="medium">Média</option>
+                    <option value="low">Baixa</option>
+                </select><br><br>
+
+                <label for="studyContent">Conteúdo:</label>
+                <input type="text" id="studyContent" name="studyContent" required><br><br>
+
+                <button type="submit">Salvar</button>
+                <button type="button" id="btnModalStudyCreateCancel" class="btn-close-modal-study-create-cancel">Cancelar</button>
+            </form>
+        </div>
+    </div>
+    <!-- MODAL MODAL -->
+
+    <div id="studyCardsContainer"></div>
+    <script src="script.js"></script>
+</body>
+
+</html>

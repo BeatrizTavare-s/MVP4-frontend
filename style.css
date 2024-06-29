@@ -1,0 +1,273 @@
+html {
+  /* background-color: #121214 */
+  background-color:#0661A4;
+}
+
+header {
+  background-color: #0288EA;
+  display: flex;
+  padding-left: 5rem;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  /* background-color: #D9D9D9; */
+  margin: 0;
+  /* padding: 20px; */
+  color: #333;
+}
+
+h2 {
+  text-align: center;
+  color: white;
+  /* margin-bottom: 20px; */
+}
+
+
+
+/* START MODAL STUDY CREATE */
+#studyCardsContainer{
+  margin-left: 5rem;
+  margin-right: 5rem;
+  margin-top: 5rem
+}
+
+.studyModal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content-create-study {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-close-modal-study-create-cancel{
+  background-color: #ff4d4f;
+  color: white;
+  border: 0;
+  border-radius: 0.2rem;
+  cursor: pointer; 
+}
+
+/* END MODAL STUDY CREATE*/
+
+
+/*START CARD STUDY */
+.study-card {
+  background-color: white;
+  height: 12em;
+  /* border-left: 1rem solid #ff4d4f; */
+  border-radius: 1rem;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.study-card-content-title {
+  width: 22rem;
+  align-content: center;
+  text-align: center;
+}
+
+.study-card-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.study-card-content-values {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0.5rem;
+}
+
+.study-description {
+  flex: 1;
+  background-color: #e7e7e7;
+  padding: 0.5rem;
+  border-radius: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-study-btns {
+  display: flex;
+  justify-content: flex-end;
+  height: 2rem;
+  margin: 1rem;
+}
+
+.btn-study-completed {
+  width: 6rem;
+  height: 2.5rem;
+  margin-right: 1rem;
+  background-color: #1890ff;
+
+  color: white;
+  border: 0;
+  border-radius: 0.2rem;
+  cursor: pointer;
+}
+
+.btn-study-delete {
+  width: 6rem;
+  height: 2.5rem;
+  background-color: #ff4d4f;
+  color: white;
+  border: 0;
+  border-radius: 0.2rem;
+  cursor: pointer;
+}
+
+/* END CARD STUDY */
+
+
+/* START TOAST */
+/* Estilos para o toast */
+#toast {
+  position: fixed;
+  z-index: 9999;
+  right: 20px;
+  bottom: 20px;
+  min-width: 250px;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(to right, #4CAF50, #388E3C);
+  /* Degradê de verde */
+  color: #fff;
+  font-size: 16px;
+  line-height: 1.4;
+  animation: slideIn 0.5s ease-in-out, slideOut 0.5s 2.5s ease-in-out;
+  transform-origin: right bottom;
+  opacity: 0;
+  visibility: hidden;
+}
+
+#toast.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* END TOAST */
+
+.confirmation-modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow: auto;
+}
+
+.confirmation-modal .modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 400px;
+  border-radius: 8px;
+  text-align: center;
+  position: relative;
+}
+
+.modal-content {
+  text-align: center;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #888;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+}
+
+.modal-content p {
+  margin-bottom: 15px;
+}
+
+.modal-content button {
+  width: 6rem;
+  margin: 0 10px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.modal-content button:hover {
+  background-color: #45a049;
+}
+
+.modal-content button.close-modal {
+  background-color: #f44336;
+}
+
+/* START MODAL CONFIRMATION  */
+
+
+/* START indicador visual card concluido */
+.aviso {
+  display: inline-block;
+  height: 1rem;
+  padding: 8px 12px;
+  background-color: #f44336;
+  color: white;
+  font-weight: bold;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+/* END indicador visual card concluido */
