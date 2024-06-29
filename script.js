@@ -92,12 +92,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //   START CARDS 
 
-    async function handleDeleteStudy(studyId) {
+    async function handleDeleteStudy(studyId, status) {
         openConfirmationModal('Tem certeza de que deseja excluir este estudo?', 'Confirmar', async function () {
             await fetch(`http://127.0.0.1:5000/study?id=${studyId}`, {
                 method: 'DELETE',
             }).then(function (response) {
-                if (response.ok) fetchStudyCardsData("uncompleted")
+                if (response.ok) {
+                    if(status == "uncompleted")
+                        fetchStudyCardsData("uncompleted")
+                    else
+                    fetchStudyCardsData("completed")
+                }
             });
         });
     }
