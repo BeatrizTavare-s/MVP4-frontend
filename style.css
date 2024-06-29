@@ -337,28 +337,66 @@ body {
   margin: 2rem;
 }
 .btnMenu {
-  background-color: white; /* Cor de fundo branca */
-  color: #333; /* Cor do texto para um bom contraste */
-  border: 2px solid #ddd; /* Bordas cinza claro */
-  padding: 10px 20px; /* Espaçamento interno */
-  font-size: 16px; /* Tamanho da fonte */
-  font-weight: bold; /* Negrito */
-  border-radius: 5px; /* Bordas arredondadas */
-  cursor: pointer; /* Cursor de ponteiro */
-  transition: all 0.3s ease; /* Transição suave para mudanças */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidade */
+  background-color: white; 
+  color: #333; 
+  border: 2px solid #ddd; 
+  padding: 10px 20px; 
+  font-size: 16px; 
+  font-weight: bold;
+  border-radius: 5px; 
+  cursor: pointer;
+  transition: all 0.3s ease; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .btnMenu:hover {
-  background-color: #f8f8f8; /* Cor de fundo ao passar o mouse */
-  border-color: #ccc; /* Cor da borda ao passar o mouse */
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Sombra mais pronunciada ao passar o mouse */
+  background-color: #f8f8f8; 
+  border-color: #ccc;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 
 .btnMenu:active {
-  background-color: #eee; /* Cor de fundo ao clicar */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ao clicar */
-  transform: translateY(2px); /* Efeito de clique */
+  background-color: #eee; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  transform: translateY(2px);
+}
+
+/* STAR para o select personalizado */
+.order-select {
+  /* margin-bottom: 20px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  color: white;
+}
+
+.order-select label{
+  padding-bottom: 0.5rem;
+}
+
+.order-select select {
+  background-color: white; 
+  color: #333; 
+  border: 2px solid #ddd; 
+  padding: 10px 20px; 
+  font-size: 16px; 
+  font-weight: bold;
+  border-radius: 5px; 
+  cursor: pointer;
+  transition: all 0.3s ease; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 2rem;
+}
+
+.order-select select:hover {
+  background-color: #e0e0e0;
+}
+
+.order-select select:focus {
+  outline: none;
+  border-color: #66afe9;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 /* END BOTAO DE MENU */
@@ -378,5 +416,3 @@ body {
 }
 
 /* END QUANDO N TIVER CARDS */
-
-

@@ -18,6 +18,14 @@
         <button type="button" id="createStudyBtn" class="btnMenu">Adicionar Estudo</button>
         <button type="button" id="btnSearchNotStarted" class="btnMenu">Vizualizar Cards</button>
         <button type="button" id="btnSearchCompleted" class="btnMenu">Cards Concluído</button>
+
+        <div class="order-select">
+            <select id="sort-select" onchange="(e)=>e.target.value">
+                <option value="">Sem ordenação</option>
+                <option value="asc">Prioridade Alta</option>
+                <option value="desc">Prioridade Baixa</option>
+            </select>
+        </div>
     </div>
 
     <!-- START TOAST -->
@@ -43,12 +51,12 @@
                     <label for="studyTitle">Título:</label>
                     <input type="text" id="studyTitle" name="studyTitle" required>
                 </div>
-    
+
                 <div class="form-group">
                     <label for="studyDescription">Descrição:</label>
                     <textarea id="studyDescription" name="studyDescription" rows="4" required></textarea>
                 </div>
-    
+
                 <div class="form-group">
                     <label for="studyPriority">Prioridade:</label>
                     <select id="studyPriority" name="studyPriority" required>
@@ -57,15 +65,16 @@
                         <option value="low">Baixa</option>
                     </select>
                 </div>
-    
+
                 <div class="form-group">
                     <label for="studyContent">Conteúdo:</label>
                     <input type="text" id="studyContent" name="studyContent" required>
                 </div>
-    
+
                 <div class="form-buttons">
                     <button type="submit">Salvar</button>
-                    <button type="button" id="btnModalStudyCreateCancel" class="btn-close-modal-study-create-cancel">Cancelar</button>
+                    <button type="button" id="btnModalStudyCreateCancel"
+                        class="btn-close-modal-study-create-cancel">Cancelar</button>
                 </div>
             </form>
         </div>

@@ -99,10 +99,10 @@ document.addEventListener("DOMContentLoaded", function () {
             }).then(function (response) {
                 if (response.ok) {
                     console.log(status)
-                    if(status == "uncompleted")
+                    if (status == "uncompleted")
                         fetchStudyCardsData("uncompleted")
                     else
-                    fetchStudyCardsData("completed")
+                        fetchStudyCardsData("completed")
                 }
             });
         });
@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
     async function handleCompleteStudy(studyId) {
         openConfirmationModal('Tem certeza de que deseja concluir este estudo?', 'Confirmar', async function () {
             await fetch(`http://127.0.0.1:5000/study/completed?id=${studyId}`, {
-                method: 'PUT',
+                method: 'PATCH',
             }).then(function (response) {
                 if (response.ok) fetchStudyCardsData("uncompleted")
             });
@@ -120,18 +120,28 @@ document.addEventListener("DOMContentLoaded", function () {
     async function handleUncompleteStudy(studyId) {
         openConfirmationModal('Tem certeza de que deseja reverter este estudo?', 'Confirmar', async function () {
             await fetch(`http://127.0.0.1:5000/study/uncompleted?id=${studyId}`, {
-                method: 'PUT',
+                method: 'PATCH',
             }).then(function (response) {
                 if (response.ok) fetchStudyCardsData("completed")
             });
         });
     }
 
-
+    // Ordenação
+    const sortSelect = document.getElementById('sort-select');
+    sortSelect.addEventListener('change', function () {
+        fetchStudyCardsData("uncompleted");
+    });
 
     async function fetchStudyCardsData(filter) {
         try {
-            const response = await fetch(`http://127.0.0.1:5000/studies?status=${filter}`);
+            let response;
+            const sortBy = sortSelect.value; // Obtém o valor selecionado do select
+            if (sortBy) {
+                response = await fetch(`http://127.0.0.1:5000/studies?status=${filter}&sort=${sortBy}`);
+            } else {
+                response = await fetch(`http://127.0.0.1:5000/studies?status=${filter}`);
+            }
             if (!response.ok) {
                 throw new Error('Network response was not ok ' + response.statusText);
             }
@@ -139,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const container = document.getElementById('studyCardsContainer');
             container.innerHTML = '';
-            if(data.studies.length <=0) {
+            if (data.studies.length <= 0) {
                 container.innerHTML = `
                 <div class="content-caixa-vazia">
                     <h2>Nenhum card encontrado </h2>
