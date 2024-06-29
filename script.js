@@ -98,6 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 method: 'DELETE',
             }).then(function (response) {
                 if (response.ok) {
+                    console.log(status)
                     if(status == "uncompleted")
                         fetchStudyCardsData("uncompleted")
                     else
@@ -139,7 +140,12 @@ document.addEventListener("DOMContentLoaded", function () {
             const container = document.getElementById('studyCardsContainer');
             container.innerHTML = '';
             if(data.studies.length <=0) {
-                container.innerHTML = `<h2>Nenhum study encontrado :( </h2>`;
+                container.innerHTML = `
+                <div class="content-caixa-vazia">
+                    <h2>Nenhum card encontrado </h2>
+                    <img class="img-caixa-vazia" src="./assets/caixa-vazia.png">
+                </div>
+                `;
                 return;
             }
 
@@ -203,7 +209,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 const deleteBtn = document.getElementById(`delete-${study.id}`);
                 if (deleteBtn) {
-                    deleteBtn.addEventListener('click', () => handleDeleteStudy(study.id));
+                    deleteBtn.addEventListener('click', () => handleDeleteStudy(study.id, study.status));
                 }
             });
         } catch (error) {

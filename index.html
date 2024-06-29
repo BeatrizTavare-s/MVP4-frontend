@@ -10,13 +10,15 @@
 
 <body>
     <header>
+        <img class="icon-study" src="./assets/icon-study.png" alt="">
         <h2>Study Content</h2>
     </header>
     <!-- Botão para abrir o modal -->
-    <button type="button" id="createStudyBtn">Adicionar Estudo</button> 
-    <button type="button" id="btnSearchNotStarted">Vizualizar Cards</button> 
-    <button type="button" id="btnSearchCompleted">Cards Concluído</button> 
-
+    <div class="menuContentBtn">
+        <button type="button" id="createStudyBtn" class="btnMenu">Adicionar Estudo</button>
+        <button type="button" id="btnSearchNotStarted" class="btnMenu">Vizualizar Cards</button>
+        <button type="button" id="btnSearchCompleted" class="btnMenu">Cards Concluído</button>
+    </div>
 
     <!-- START TOAST -->
     <div id="toast" class="toast"></div>
@@ -35,26 +37,36 @@
     <!-- START MODAL -->
     <div id="studyModal" class="studyModal">
         <div class="modal-content-create-study">
-            <h2>Adicionar Study</h2>
+            <h2>Adicionar Estudo</h2>
             <form id="studyForm">
-                <label for="studyTitle">Título:</label>
-                <input type="text" id="studyTitle" name="studyTitle" required><br><br>
-
-                <label for="studyDescription">Descrição:</label>
-                <textarea id="studyDescription" name="studyDescription" rows="4" required></textarea><br><br>
-
-                <label for="studyPriority">Prioridade:</label>
-                <select id="studyPriority" name="studyPriority" required>
-                    <option value="high">Alta</option>
-                    <option value="medium">Média</option>
-                    <option value="low">Baixa</option>
-                </select><br><br>
-
-                <label for="studyContent">Conteúdo:</label>
-                <input type="text" id="studyContent" name="studyContent" required><br><br>
-
-                <button type="submit">Salvar</button>
-                <button type="button" id="btnModalStudyCreateCancel" class="btn-close-modal-study-create-cancel">Cancelar</button>
+                <div class="form-group">
+                    <label for="studyTitle">Título:</label>
+                    <input type="text" id="studyTitle" name="studyTitle" required>
+                </div>
+    
+                <div class="form-group">
+                    <label for="studyDescription">Descrição:</label>
+                    <textarea id="studyDescription" name="studyDescription" rows="4" required></textarea>
+                </div>
+    
+                <div class="form-group">
+                    <label for="studyPriority">Prioridade:</label>
+                    <select id="studyPriority" name="studyPriority" required>
+                        <option value="high">Alta</option>
+                        <option value="medium">Média</option>
+                        <option value="low">Baixa</option>
+                    </select>
+                </div>
+    
+                <div class="form-group">
+                    <label for="studyContent">Conteúdo:</label>
+                    <input type="text" id="studyContent" name="studyContent" required>
+                </div>
+    
+                <div class="form-buttons">
+                    <button type="submit">Salvar</button>
+                    <button type="button" id="btnModalStudyCreateCancel" class="btn-close-modal-study-create-cancel">Cancelar</button>
+                </div>
             </form>
         </div>
     </div>

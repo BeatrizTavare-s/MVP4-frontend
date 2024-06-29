@@ -3,11 +3,26 @@ html {
   background-color:#0661A4;
 }
 
+/* START HEADER */
 header {
   background-color: #0288EA;
   display: flex;
   padding-left: 5rem;
+  align-items: center;
 }
+
+h2 {
+  color: white;
+  padding-left: 1rem;
+}
+
+.icon-study{
+  width: 4rem;
+  height: 4rem;
+  padding: 0.5rem;
+}
+
+/* END HEADER */
 
 body {
   font-family: Arial, sans-serif;
@@ -17,21 +32,8 @@ body {
   color: #333;
 }
 
-h2 {
-  text-align: center;
-  color: white;
-  /* margin-bottom: 20px; */
-}
-
-
 
 /* START MODAL STUDY CREATE */
-#studyCardsContainer{
-  margin-left: 5rem;
-  margin-right: 5rem;
-  margin-top: 5rem
-}
-
 .studyModal {
   display: none;
   position: fixed;
@@ -41,26 +43,78 @@ h2 {
   width: 100%;
   height: 100%;
   overflow: auto;
+  background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
+  padding-top: 60px;
 }
 
 .modal-content-create-study {
   background-color: #fefefe;
-  margin: 15% auto;
+  margin: 5% auto;
   padding: 20px;
   border: 1px solid #888;
   width: 80%;
   max-width: 600px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
 }
 
-.btn-close-modal-study-create-cancel{
-  background-color: #ff4d4f;
+.modal-content-create-study h2 {
+  text-align: center;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: #66afe9;
+  outline: none;
+}
+
+.form-buttons {
+  text-align: center;
+}
+
+.form-buttons button {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.form-buttons button[type="submit"] {
+  background-color: #28a745;
   color: white;
-  border: 0;
-  border-radius: 0.2rem;
-  cursor: pointer; 
+}
+
+.form-buttons button[type="button"] {
+  background-color: #dc3545;
+  color: white;
+}
+
+.form-buttons button:hover {
+  opacity: 0.8;
 }
 
 /* END MODAL STUDY CREATE*/
@@ -68,6 +122,8 @@ h2 {
 
 /*START CARD STUDY */
 .study-card {
+  width: calc(100% - 20rem); 
+  margin: 0 auto;
   background-color: white;
   height: 12em;
   /* border-left: 1rem solid #ff4d4f; */
@@ -271,3 +327,56 @@ h2 {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 /* END indicador visual card concluido */
+
+/* START BOTAO DE MENU */
+.menuContentBtn{
+  display: flex;
+  justify-content: center;
+}
+.menuContentBtn button{
+  margin: 2rem;
+}
+.btnMenu {
+  background-color: white; /* Cor de fundo branca */
+  color: #333; /* Cor do texto para um bom contraste */
+  border: 2px solid #ddd; /* Bordas cinza claro */
+  padding: 10px 20px; /* Espaçamento interno */
+  font-size: 16px; /* Tamanho da fonte */
+  font-weight: bold; /* Negrito */
+  border-radius: 5px; /* Bordas arredondadas */
+  cursor: pointer; /* Cursor de ponteiro */
+  transition: all 0.3s ease; /* Transição suave para mudanças */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidade */
+}
+
+.btnMenu:hover {
+  background-color: #f8f8f8; /* Cor de fundo ao passar o mouse */
+  border-color: #ccc; /* Cor da borda ao passar o mouse */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Sombra mais pronunciada ao passar o mouse */
+}
+
+.btnMenu:active {
+  background-color: #eee; /* Cor de fundo ao clicar */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ao clicar */
+  transform: translateY(2px); /* Efeito de clique */
+}
+
+/* END BOTAO DE MENU */
+
+/* START QUANDO N TIVER CARDS */
+.content-caixa-vazia{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+}
+.img-caixa-vazia{
+  width: 10rem;
+  height: 10rem;
+  padding-bottom: 3rem ;
+}
+
+/* END QUANDO N TIVER CARDS */
+
+
