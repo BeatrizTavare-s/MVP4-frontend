@@ -56,12 +56,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // START Funcao que pega dados do modal e chama o POST  da API para criar o Study
     const handleCreateStudy = async (form) => {
-        const volunteerData = {
+        let volunteerData = {
             title: form.studyTitle.value,
             description: form.studyDescription.value,
             content: form.studyContent.value,
             priority: form.studyPriority.value,
         };
+
+        if(form.studyCategory.value){
+            volunteerData = {...volunteerData, category_id: form.studyCategory.value}
+        }
 
         try {
             const response = await fetch('http://127.0.0.1:5000/study', {
@@ -137,11 +141,16 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
             let response;
             const sortBy = sortSelect.value; // Obtém o valor selecionado do select
-            if (sortBy) {
-                response = await fetch(`http://127.0.0.1:5000/studies?status=${filter}&sort=${sortBy}`);
-            } else {
-                response = await fetch(`http://127.0.0.1:5000/studies?status=${filter}`);
-            }
+            const filterByCategory = studyCategorySelectFilter.value; // Obtém o valor selecionado do select
+           
+            let url = ''
+            if (filter) url += `status=${filter}&`;
+            if (sortBy) url += `sort=${sortBy}&`;
+            if (filterByCategory) url += `category=${filterByCategory}&`;
+
+            // Remove o último caractere "&" da URL se existir
+            url = url.slice(-1) === "&" ? url.slice(0, -1) : url;
+            response = await fetch(`http://127.0.0.1:5000/studies?${url}`);
             if (!response.ok) {
                 throw new Error('Network response was not ok ' + response.statusText);
             }
@@ -171,6 +180,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 card.style.borderLeft = `1rem solid ${priorityObj ? priorityObj.color : '#0288EA'}`;
                 if (study.status === 'uncompleted') {
                     card.innerHTML = `
+                    ${study.category_name ? `<span class="category-aviso">${study.category_name}</span>`:''}
                     <div class="study-card-content-title">
                         <h3>${study.title}</h3>
                     </div>
@@ -187,6 +197,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 `;
                 } else {
                     card.innerHTML = `
+                    ${study.category_name ? `<span class="category-aviso">${study.category_name}</span>`:''}
                     <span class="aviso">Concluído</span>
                     <div class="study-card-content-title">
                         <h3>${study.title}</h3>
@@ -287,5 +298,142 @@ document.addEventListener("DOMContentLoaded", function () {
         };
     }
 
+
+
+
+
+
+// START MODAL CATEGORY
+
+
+var modalCategory = document.getElementById("addCategoryModal");
+var btnAddCategory = document.getElementById("btnAddCategory");
+var saveBtn = document.getElementById("saveCategory");
+var cancelBtn = document.getElementById("cancelCategory");
+
+btnAddCategory.onclick = function () {
+    fetchCategories()
+    modalCategory.style.display = "block";
+}
+
+
+cancelBtn.onclick = function () {
+    modalCategory.style.display = "none";
+}
+
+saveBtn.onclick = function () {
+    var categoryName = document.getElementById("categoryName").value;
+    console.log("Category Name:", categoryName);
+    handleCreateCategory(categoryName)
+    modalCategory.style.display = "none";
+}
+
+window.onclick = function (event) {
+    if (event.target == modalCategory) {
+        modalCategory.style.display = "none";
+    }
+}
+ var studyCategorySelect = document.getElementById("studyCategory");
+ function addCategoryToSelect(id, name) {
+        var option = document.createElement("option");
+        option.value = id;
+        option.textContent = name;
+        studyCategorySelect.appendChild(option);
+    }
+
+function fetchCategories() {
+    fetch("http://127.0.0.1:5000/categories")
+        .then(response => response.json())
+        .then(data => {
+            categoryList.innerHTML = ""; // Clear existing list
+            data.categories.forEach(category => {
+                addCategoryToList(category.id, category.name);
+                addCategoryToSelect(category.id, category.name);
+                addCategoryToSelectFilter(category.id, category.name);
+            });
+        })
+        .catch(error => console.error('Error fetching categories:', error));
+}
+
+function addCategoryToList(id, name) {
+    var li = document.createElement("li");
+    li.textContent = name;
+    var deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Apagar";
+    deleteBtn.className = "delete-btn";
+    deleteBtn.onclick = function () {
+        // Delete the category via the API
+        fetch(`http://127.0.0.1:5000/category?id=${id}`, {
+            method: 'DELETE'
+        })
+        .then(() => {
+            categoryList.removeChild(li);
+        })
+        .catch(error => console.error('Error deleting category:', error));
+    };
+    li.appendChild(deleteBtn);
+    categoryList.appendChild(li);
+}
+
+const handleCreateCategory = async (name) => {
+    const newCategory = {
+        name,
+    };
+
+    try {
+        const response = await fetch('http://127.0.0.1:5000/category', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                ...newCategory
+            })
+        });
+
+        if (response.ok) {
+            console.log('Categoria criada com sucesso!');
+            showToast('Categoria criado com sucesso', '#4CAF50')
+            addCategoryToSelect(response.data.id, response.data.name)
+        } else {
+            console.error('Erro ao criar category:', response.statusText);
+            showToast('Categoria criado com sucesso', '#ff4d4f')
+        }
+    } catch (error) {
+        console.error('Erro ao criar evento:', error);
+    }
+};
+
+// END MODAL CATEGORY
+
+
+// START FILTER CATEGORIA
+
+var studyCategorySelectFilter = document.getElementById("studyCategoryFilter");
+function addCategoryToSelectFilter(id, name) {
+       var optionFilter = document.createElement("option");
+       optionFilter.value = id;
+       optionFilter.textContent = name;
+       studyCategorySelectFilter.appendChild(optionFilter);
+   }
+
+    studyCategorySelectFilter.addEventListener('change', function () {
+    fetchStudyCardsData("uncompleted");
+});
+
+
+
+
+// END FILTER CATEGORIA
+
+
+
+
+
+
+
+
+
     fetchStudyCardsData("uncompleted")
+    fetchCategories()
 });

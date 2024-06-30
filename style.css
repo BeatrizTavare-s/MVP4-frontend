@@ -67,6 +67,13 @@ body {
   margin-bottom: 15px;
 }
 
+.form-group-select {
+  display: flex;
+}
+
+.form-group-select-content{
+  width: 100%;
+}
 .form-group label {
   display: block;
   margin-bottom: 5px;
@@ -93,6 +100,8 @@ body {
 
 .form-buttons {
   text-align: center;
+  display: flex;
+  justify-content: space-between;
 }
 
 .form-buttons button {
@@ -328,6 +337,23 @@ body {
 }
 /* END indicador visual card concluido */
 
+
+/* START indicador visual categoria do card */
+.category-aviso {
+  display: inline-block;
+  height: 1rem;
+  padding: 8px 12px;
+  background-color: #0288EA;
+  color: white;
+  font-weight: 500;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+/* END indicador visual categoria do card */
+
+
+
 /* START BOTAO DE MENU */
 .menuContentBtn{
   display: flex;
@@ -416,3 +442,90 @@ body {
 }
 
 /* END QUANDO N TIVER CARDS */
+
+
+
+
+/* STARRT MODAL CATEGORY */
+/* Modal Styles */
+.modalCategory {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modalCategory-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 400px;
+  border-radius: 10px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modalCategory-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn {
+  padding: 10px 20px;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+#saveCategory {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+}
+
+#cancelCategory {
+  background-color: #f44336;
+  color: white;
+  border: none;
+}
+
+#categoryList {
+  list-style-type: none;
+  padding: 0;
+}
+
+#categoryList li {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+}
+
+.delete-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+/* END MODAL CATEGORY */

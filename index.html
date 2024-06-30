@@ -18,12 +18,19 @@
         <button type="button" id="createStudyBtn" class="btnMenu">Adicionar Estudo</button>
         <button type="button" id="btnSearchNotStarted" class="btnMenu">Vizualizar Cards</button>
         <button type="button" id="btnSearchCompleted" class="btnMenu">Cards Concluído</button>
+        <button type="button" id="btnAddCategory" class="btnMenu">Adiciona Categoria</button>
 
         <div class="order-select">
             <select id="sort-select" onchange="(e)=>e.target.value">
                 <option value="">Sem ordenação</option>
                 <option value="asc">Prioridade Alta</option>
                 <option value="desc">Prioridade Baixa</option>
+            </select>
+        </div>
+
+        <div class="order-select">
+            <select id="studyCategoryFilter" onchange="(e)=>e.target.value">
+                <option value="">Sem filtro</option>
             </select>
         </div>
     </div>
@@ -58,12 +65,22 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="studyPriority">Prioridade:</label>
-                    <select id="studyPriority" name="studyPriority" required>
-                        <option value="high">Alta</option>
-                        <option value="medium">Média</option>
-                        <option value="low">Baixa</option>
-                    </select>
+                    <div class="form-group-select">
+                        <div class="form-group-select-content">
+                            <label for="studyPriority">Prioridade:</label>
+                            <select id="studyPriority" name="studyPriority" required>
+                                <option value="high">Alta</option>
+                                <option value="medium">Média</option>
+                                <option value="low">Baixa</option>
+                            </select>
+                        </div>
+                        <div class="form-group-select-content">
+                            <label for="studyPriority">Categoria:</label>
+                            <select id="studyCategory" name="studyCategory">
+                                <option value="">Sem Categoria</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -81,6 +98,24 @@
     </div>
     <!-- MODAL MODAL -->
 
+
+    <!-- START MODAL CATEGORY -->
+    <div id="addCategoryModal" class="modalCategory">
+        <div class="modalCategory-content">
+            <h4>Lista de Categorias</h4>
+            <ul id="categoryList"></ul>
+            <h3>Adicionar Categoria</h3>
+            <form id="categoryForm">
+                <label for="categoryName">Nome da Categoria:</label>
+                <input type="text" id="categoryName" name="categoryName" required>
+                <div class="modalCategory-buttons">
+                    <button type="button" id="saveCategory" class="btn">Salvar</button>
+                    <button type="button" id="cancelCategory" class="btn">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- END MODAL CATEGORY  -->
     <div id="studyCardsContainer"></div>
     <script src="script.js"></script>
 </body>
