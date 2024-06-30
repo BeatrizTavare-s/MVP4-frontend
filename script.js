@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
         fetchStudyCardsData("completed");
     }
 
-    // Abrir o modal ao clicar no botão
+    // Abrir o modal para criar study ao clicar no botão
     btnCreateStudy.onclick = function () {
         modalCreateStudy.style.display = 'block';
     }
