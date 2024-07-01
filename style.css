@@ -340,7 +340,8 @@ body {
 
 /* START indicador visual categoria do card */
 .category-aviso {
-  display: inline-block;
+  display: flex;
+  flex: none;
   height: 1rem;
   padding: 8px 12px;
   background-color: #0288EA;

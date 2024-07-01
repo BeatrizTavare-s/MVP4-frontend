@@ -335,6 +335,11 @@ window.onclick = function (event) {
 }
  var studyCategorySelect = document.getElementById("studyCategory");
  function addCategoryToSelect(id, name) {
+    for (var i = 0; i < studyCategorySelect.options.length; i++) {
+        if (studyCategorySelect.options[i].value == id || studyCategorySelect.options[i].textContent == name) {
+            return;
+        }
+    }
         var option = document.createElement("option");
         option.value = id;
         option.textContent = name;
@@ -411,6 +416,11 @@ const handleCreateCategory = async (name) => {
 
 var studyCategorySelectFilter = document.getElementById("studyCategoryFilter");
 function addCategoryToSelectFilter(id, name) {
+    for (var i = 0; i < studyCategorySelectFilter.options.length; i++) {
+        if (studyCategorySelectFilter.options[i].value == id || studyCategorySelectFilter.options[i].textContent == name) {
+            return;
+        }
+    }
        var optionFilter = document.createElement("option");
        optionFilter.value = id;
        optionFilter.textContent = name;
