@@ -10,8 +10,13 @@
 
 <body>
     <header>
-        <img class="icon-study" src="./assets/icon-study.png" alt="">
-        <h2>Study Content</h2>
+        <div class="container-header">
+            <div class="container-title">
+                <img class="icon-study" src="./assets/icon-study.png" alt="">
+                <h2>Study Content</h2>
+            </div>
+            <a class="session" href="sessions.html">Sessões</a>
+        </div>
     </header>
     <!-- Botão para abrir o modal -->
     <div class="menuContentBtn">
@@ -19,6 +24,7 @@
         <button type="button" id="btnSearchNotStarted" class="btnMenu">Vizualizar Cards</button>
         <button type="button" id="btnSearchCompleted" class="btnMenu">Cards Concluído</button>
         <button type="button" id="btnAddCategory" class="btnMenu">Adiciona Categoria</button>
+
 
         <div class="order-select">
             <select id="sort-select" onchange="(e)=>e.target.value">
@@ -117,6 +123,7 @@
     </div>
     <!-- END MODAL CATEGORY  -->
     <div id="studyCardsContainer"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="script.js"></script>
 </body>
 

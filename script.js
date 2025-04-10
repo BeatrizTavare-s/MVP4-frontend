@@ -63,8 +63,8 @@ document.addEventListener("DOMContentLoaded", function () {
             priority: form.studyPriority.value,
         };
 
-        if(form.studyCategory.value){
-            volunteerData = {...volunteerData, category_id: form.studyCategory.value}
+        if (form.studyCategory.value) {
+            volunteerData = { ...volunteerData, category_id: form.studyCategory.value }
         }
 
         try {
@@ -112,6 +112,119 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    async function scheduleGenerete(studyId) {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        const pageHeight = doc.internal.pageSize.height;
+        const pageWidth = doc.internal.pageSize.width;
+
+        const response = await fetch(`http://127.0.0.1:5000/study/schedule?id=${studyId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+
+        const dataResponse = await response.json();
+        const jsonString = dataResponse.schedule
+
+        const data = JSON.parse(jsonString);
+
+    let y = 20;
+    let pagina = 1;
+
+    function adicionarCabecalho() {
+      doc.setFontSize(18);
+      doc.setFont("helvetica", "bold");
+      doc.text(data.title, 20, 15);
+      y = 30;
+      doc.setFontSize(10);
+      doc.setFont("helvetica", "normal");
+      doc.text(`Página ${pagina}`, pageWidth - 40, 15);
+      doc.setDrawColor(180);
+      doc.line(20, 18, pageWidth - 20, 18);
+    }
+
+    adicionarCabecalho();
+    data.semanas.forEach(semana => {
+      if (y > pageHeight - 30) {
+        doc.addPage();
+        pagina++;
+        adicionarCabecalho();
+        y = 30;
+      }
+
+      // Nome da semana
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(14);
+      doc.text(`${semana.nome}`, 20, y);
+      y += 10;
+
+      semana.dias.forEach(dia => {
+        if (y > pageHeight - 20) {
+          doc.addPage();
+          pagina++;
+          y = 30;
+          adicionarCabecalho();
+          y = 30;
+        }
+
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(11);
+        doc.text(`• ${dia.dia}: ${dia.atividade}`, 25, y);
+        y += 8;
+      });
+
+      y += 5; // espaço extra entre semanas
+    });
+
+    doc.save(`${data.title}.pdf`);
+    }
+
+
+    async function generateBooksPDF(title) {
+        const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${title}`);
+        const { jsPDF } = window.jspdf;
+        const data = await response.json();
+      
+        const doc = new jsPDF();
+        const pageHeight = doc.internal.pageSize.height;
+        const books = data.items?.slice(0, 20) || [];
+      
+        let y = 30;
+        let pagina = 1;
+      
+        adicionarCabecalho(doc, pagina);
+      
+        for (let i = 0; i < books.length; i++) {
+          const book = books[i];
+          const titulo = book.volumeInfo?.title || 'Título não disponível';
+      
+          if (y > pageHeight - 20) {
+            doc.addPage();
+            pagina++;
+            y = 30;
+            adicionarCabecalho(doc, pagina);
+          }
+      
+          doc.setFontSize(12);
+          doc.text(`Título ${i + 1}: ${titulo}`, 10, y);
+          y += 10;
+        }
+      
+        doc.save("books.pdf");
+      }
+      
+      // Cabeçalho simples
+      function adicionarCabecalho(doc, pagina) {
+        doc.setFontSize(10);
+        doc.setTextColor(100);
+        doc.text(`Página ${pagina}`, 180, 10);
+        doc.setDrawColor(200);
+        doc.line(10, 12, 200, 12);
+      }
+      
+
     async function handleCompleteStudy(studyId) {
         openConfirmationModal('Tem certeza de que deseja concluir este estudo?', 'Confirmar', async function () {
             await fetch(`http://127.0.0.1:5000/study/completed?id=${studyId}`, {
@@ -142,7 +255,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let response;
             const sortBy = sortSelect.value; // Obtém o valor selecionado do select
             const filterByCategory = studyCategorySelectFilter.value; // Obtém o valor selecionado do select
-           
+
             let url = ''
             if (filter) url += `status=${filter}&`;
             if (sortBy) url += `sort=${sortBy}&`;
@@ -180,7 +293,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 card.style.borderLeft = `1rem solid ${priorityObj ? priorityObj.color : '#0288EA'}`;
                 if (study.status === 'uncompleted') {
                     card.innerHTML = `
-                    ${study.category_name ? `<span class="category-aviso">${study.category_name}</span>`:''}
+                    ${study.category_name ? `<span class="category-aviso">${study.category_name}</span>` : ''}
                     <div class="study-card-content-title">
                         <h3>${study.title}</h3>
                     </div>
@@ -192,12 +305,14 @@ document.addEventListener("DOMContentLoaded", function () {
                         <div class="card-study-btns">
                             <button class="btn-study-completed" id="complete-${study.id}">Concluir</button>
                             <button class="btn-study-delete" id="delete-${study.id}">Excluir</button>
+                            <button class="btn-study-schedule" id="schedule-${study.id}">Cronograma</button>
+                            <button class="btn-study-books" id="books-${study.id}">Livros</button>
                         </div>
                     </div>
                 `;
                 } else {
                     card.innerHTML = `
-                    ${study.category_name ? `<span class="category-aviso">${study.category_name}</span>`:''}
+                    ${study.category_name ? `<span class="category-aviso">${study.category_name}</span>` : ''}
                     <span class="aviso">Concluído</span>
                     <div class="study-card-content-title">
                         <h3>${study.title}</h3>
@@ -231,6 +346,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 const deleteBtn = document.getElementById(`delete-${study.id}`);
                 if (deleteBtn) {
                     deleteBtn.addEventListener('click', () => handleDeleteStudy(study.id, study.status));
+                }
+                const scheduleBtn = document.getElementById(`schedule-${study.id}`);
+                if (scheduleBtn) {
+                    scheduleBtn.addEventListener('click', () => scheduleGenerete(study.id));
+                }
+
+                const booksBtn = document.getElementById(`books-${study.id}`);
+                if (booksBtn) {
+                    booksBtn.addEventListener('click', () => generateBooksPDF(study.title));
                 }
             });
         } catch (error) {
@@ -303,146 +427,135 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-// START MODAL CATEGORY
+    // START MODAL CATEGORY
 
 
-var modalCategory = document.getElementById("addCategoryModal");
-var btnAddCategory = document.getElementById("btnAddCategory");
-var saveBtn = document.getElementById("saveCategory");
-var cancelBtn = document.getElementById("cancelCategory");
+    var modalCategory = document.getElementById("addCategoryModal");
+    var btnAddCategory = document.getElementById("btnAddCategory");
+    var saveBtn = document.getElementById("saveCategory");
+    var cancelBtn = document.getElementById("cancelCategory");
 
-btnAddCategory.onclick = function () {
-    fetchCategories()
-    modalCategory.style.display = "block";
-}
+    btnAddCategory.onclick = function () {
+        fetchCategories()
+        modalCategory.style.display = "block";
+    }
 
 
-cancelBtn.onclick = function () {
-    modalCategory.style.display = "none";
-}
-
-saveBtn.onclick = function () {
-    var categoryName = document.getElementById("categoryName").value;
-    console.log("Category Name:", categoryName);
-    handleCreateCategory(categoryName)
-    modalCategory.style.display = "none";
-}
-
-window.onclick = function (event) {
-    if (event.target == modalCategory) {
+    cancelBtn.onclick = function () {
         modalCategory.style.display = "none";
     }
-}
- var studyCategorySelect = document.getElementById("studyCategory");
- function addCategoryToSelect(id, name) {
-    for (var i = 0; i < studyCategorySelect.options.length; i++) {
-        if (studyCategorySelect.options[i].value == id || studyCategorySelect.options[i].textContent == name) {
-            return;
+
+    saveBtn.onclick = function () {
+        var categoryName = document.getElementById("categoryName").value;
+        console.log("Category Name:", categoryName);
+        handleCreateCategory(categoryName)
+        modalCategory.style.display = "none";
+    }
+
+    window.onclick = function (event) {
+        if (event.target == modalCategory) {
+            modalCategory.style.display = "none";
         }
     }
+    var studyCategorySelect = document.getElementById("studyCategory");
+    function addCategoryToSelect(id, name) {
+        for (var i = 0; i < studyCategorySelect.options.length; i++) {
+            if (studyCategorySelect.options[i].value == id || studyCategorySelect.options[i].textContent == name) {
+                return;
+            }
+        }
         var option = document.createElement("option");
         option.value = id;
         option.textContent = name;
         studyCategorySelect.appendChild(option);
     }
 
-function fetchCategories() {
-    fetch("http://127.0.0.1:5000/categories")
-        .then(response => response.json())
-        .then(data => {
-            categoryList.innerHTML = ""; // Clear existing list
-            data.categories.forEach(category => {
-                addCategoryToList(category.id, category.name);
-                addCategoryToSelect(category.id, category.name);
-                addCategoryToSelectFilter(category.id, category.name);
-            });
-        })
-        .catch(error => console.error('Error fetching categories:', error));
-}
-
-function addCategoryToList(id, name) {
-    var li = document.createElement("li");
-    li.textContent = name;
-    var deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Apagar";
-    deleteBtn.className = "delete-btn";
-    deleteBtn.onclick = function () {
-        // Delete the category via the API
-        fetch(`http://127.0.0.1:5000/category?id=${id}`, {
-            method: 'DELETE'
-        })
-        .then(() => {
-            categoryList.removeChild(li);
-        })
-        .catch(error => console.error('Error deleting category:', error));
-    };
-    li.appendChild(deleteBtn);
-    categoryList.appendChild(li);
-}
-
-const handleCreateCategory = async (name) => {
-    const newCategory = {
-        name,
-    };
-
-    try {
-        const response = await fetch('http://127.0.0.1:5000/category', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                ...newCategory
+    function fetchCategories() {
+        fetch("http://127.0.0.1:5000/categories")
+            .then(response => response.json())
+            .then(data => {
+                categoryList.innerHTML = ""; // Clear existing list
+                data.categories.forEach(category => {
+                    addCategoryToList(category.id, category.name);
+                    addCategoryToSelect(category.id, category.name);
+                    addCategoryToSelectFilter(category.id, category.name);
+                });
             })
-        });
-
-        if (response.ok) {
-            console.log('Categoria criada com sucesso!');
-            showToast('Categoria criado com sucesso', '#4CAF50')
-            addCategoryToSelect(response.data.id, response.data.name)
-        } else {
-            console.error('Erro ao criar category:', response.statusText);
-            showToast('Categoria criado com sucesso', '#ff4d4f')
-        }
-    } catch (error) {
-        console.error('Erro ao criar evento:', error);
+            .catch(error => console.error('Error fetching categories:', error));
     }
-};
 
-// END MODAL CATEGORY
-
-
-// START FILTER CATEGORIA
-
-var studyCategorySelectFilter = document.getElementById("studyCategoryFilter");
-function addCategoryToSelectFilter(id, name) {
-    for (var i = 0; i < studyCategorySelectFilter.options.length; i++) {
-        if (studyCategorySelectFilter.options[i].value == id || studyCategorySelectFilter.options[i].textContent == name) {
-            return;
-        }
+    function addCategoryToList(id, name) {
+        var li = document.createElement("li");
+        li.textContent = name;
+        var deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "Apagar";
+        deleteBtn.className = "delete-btn";
+        deleteBtn.onclick = function () {
+            // Delete the category via the API
+            fetch(`http://127.0.0.1:5000/category?id=${id}`, {
+                method: 'DELETE'
+            })
+                .then(() => {
+                    categoryList.removeChild(li);
+                })
+                .catch(error => console.error('Error deleting category:', error));
+        };
+        li.appendChild(deleteBtn);
+        categoryList.appendChild(li);
     }
-       var optionFilter = document.createElement("option");
-       optionFilter.value = id;
-       optionFilter.textContent = name;
-       studyCategorySelectFilter.appendChild(optionFilter);
-   }
+
+    const handleCreateCategory = async (name) => {
+        const newCategory = {
+            name,
+        };
+
+        try {
+            const response = await fetch('http://127.0.0.1:5000/category', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    ...newCategory
+                })
+            });
+
+            if (response.ok) {
+                console.log('Categoria criada com sucesso!');
+                showToast('Categoria criado com sucesso', '#4CAF50')
+                addCategoryToSelect(response.data.id, response.data.name)
+            } else {
+                console.error('Erro ao criar category:', response.statusText);
+                showToast('Categoria criado com sucesso', '#ff4d4f')
+            }
+        } catch (error) {
+            console.error('Erro ao criar evento:', error);
+        }
+    };
+
+    // END MODAL CATEGORY
+
+
+    // START FILTER CATEGORIA
+
+    var studyCategorySelectFilter = document.getElementById("studyCategoryFilter");
+    function addCategoryToSelectFilter(id, name) {
+        for (var i = 0; i < studyCategorySelectFilter.options.length; i++) {
+            if (studyCategorySelectFilter.options[i].value == id || studyCategorySelectFilter.options[i].textContent == name) {
+                return;
+            }
+        }
+        var optionFilter = document.createElement("option");
+        optionFilter.value = id;
+        optionFilter.textContent = name;
+        studyCategorySelectFilter.appendChild(optionFilter);
+    }
 
     studyCategorySelectFilter.addEventListener('change', function () {
-    fetchStudyCardsData("uncompleted");
-});
+        fetchStudyCardsData("uncompleted");
+    });
 
-
-
-
-// END FILTER CATEGORIA
-
-
-
-
-
-
-
-
+    // END FILTER CATEGORIA
 
     fetchStudyCardsData("uncompleted")
     fetchCategories()
