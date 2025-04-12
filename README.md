@@ -37,6 +37,9 @@ Este é o **Frontend** do projeto [Study Content](https://github.com/BeatrizTava
 docker compose up --build
 ```
 
+3. Acesse:
+```http://localhost:8080/```
+
 ---
 
 ## 🧭 Arquitetura do Projeto
