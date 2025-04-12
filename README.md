@@ -14,9 +14,13 @@ Este é o **Frontend** do projeto [Study Content](https://github.com/BeatrizTava
 
 ✅ Comunicação com múltiplas APIs:
 - 📘 **API Principal (Python)**: gerencia cards de estudo, categorias e cronogramas
+🔗 [Ver repositório](https://github.com/BeatrizTavare-s/MVP4-backend)
+- 🌐 **Frontend (HTML/CSS/JS)**: interface web para interação com estudos, sessões e geração de PDFs  
+  🔗 [Ver repositório](https://github.com/BeatrizTavare-s/MVP4-frontend)
 - 🧩 **API de Sessões (NodeJS)**: adiciona e lista sessões de estudo por assunto
+🔗 [Ver repositório](https://github.com/BeatrizTavare-s/MVP4-API-SESSIONS)
 - 🤖 **API OpenAI (NodeJS)**: gera cronogramas semanais com ajuda da IA
-- 📚 **API Google Books**: busca livros recomendados com base no assunto de cada estudo
+🔗 [Ver repositório](https://github.com/BeatrizTavare-s/MVP4-API-CHAT)
 
 📄 Geração de PDFs:
 - PDF com **cronograma de estudo** retornado pela OpenAI
